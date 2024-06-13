@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
+import { Appbar } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 export default function NewsScreen() {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
         fetch('https://newsdata.io/api/1/news?apikey=pub_457874f52a4b4612242e0eaa24e49cd12d3aa&q=News')
@@ -22,9 +25,9 @@ export default function NewsScreen() {
 
     if (loading) {
         return (
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#0000ff" />
-                <Text>Carregando notícias...</Text>
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#1E90FF" />
+                <Text style={styles.loadingText}>Carregando notícias...</Text>
             </View>
         );
     }
@@ -39,16 +42,23 @@ export default function NewsScreen() {
 
     return (
         <View style={styles.container}>
-            <FlatList
-                data={news}
-                keyExtractor={(item) => item.link}
-                renderItem={({ item }) => (
-                    <View style={styles.newsItem}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.description}>{item.description}</Text>
-                    </View>
-                )}
-            />
+            <Appbar.Header style={styles.header}>
+                <Appbar.BackAction onPress={() => navigation.navigate('Login')} />
+                <Appbar.Content title="Notícias" />
+            </Appbar.Header>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <View style={styles.newsList}>
+                    {news.map((item) => (
+                        <View key={item.link} style={styles.newsItem}>
+                            <Text style={styles.title}>{item.title}</Text>
+                            <Text style={styles.description}>{item.description}</Text>
+                        </View>
+                    ))}
+                </View>
+                <View style={styles.footer}>
+                    <Text style={styles.footerText}>NewsApp</Text>
+                </View>
+            </ScrollView>
         </View>
     );
 }
@@ -56,8 +66,28 @@ export default function NewsScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#ffffff',
+    },
+    header: {
+        backgroundColor: '#1E90FF',
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
+    },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: '#1E90FF',
+    },
+    scrollContainer: {
+        flexGrow: 1,
         padding: 20,
+    },
+    newsList: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -65,7 +95,9 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         padding: 15,
         borderRadius: 5,
-        backgroundColor: '#fff',
+        backgroundColor: '#f0f0f0',
+        borderWidth: 1,
+        borderColor: '#ddd',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -77,7 +109,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
-        color: '#333',
+        color: '#1E90FF',
     },
     description: {
         fontSize: 14,
@@ -86,5 +118,13 @@ const styles = StyleSheet.create({
     errorText: {
         color: 'red',
         fontSize: 16,
+    },
+    footer: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    footerText: {
+        fontSize: 16,
+        color: '#1E90FF',
     },
 });

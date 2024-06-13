@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { auth } from '../config/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -20,6 +20,7 @@ export default function LoginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <Image source={require('../img/banner.jpg')} style={styles.logo} resizeMode="contain" />
             <Text style={styles.title}>Bem-vindo ao NewsApp</Text>
             <TextInput
                 style={styles.input}
@@ -56,6 +57,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ffffff',
         padding: 20,
+    },
+    logo: {
+        width: '100%',
+        height: 200,
+        marginBottom: 20,
     },
     title: {
         fontSize: 28,

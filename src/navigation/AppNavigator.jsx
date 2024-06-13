@@ -11,10 +11,16 @@ export default function AppNavigator() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="RegistroScreen" component={RegistroScreen} />
-            <Stack.Screen name="News" component={NewsScreen} />
+                <Stack.Screen name="Login" component={LoginScreen} options={{
+                    headerShown: false
+                }}/>
+                <Stack.Screen name="RegistroScreen" component={RegistroScreen} options={{
+                    headerShown: false
+                }} />
+                <Stack.Screen name="News" component={NewsScreen} options={{
+                    headerShown: false
+                }} />
             </Stack.Navigator>
-            </NavigationContainer>
-            );
-        }
+        </NavigationContainer>
+    );
+}

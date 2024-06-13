@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Button, Surface, Text, TextInput, Modal } from "react-native-paper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebase";
@@ -97,6 +97,7 @@ export default function RegistroScreen({ navigation }) {
   return (
     <Surface style={styles.container}>
       <View style={styles.innerContainer}>
+        <Image source={require('../img/banner.jpg')} style={styles.logo} resizeMode="contain" />
         <Text variant="headlineSmall" style={styles.title}>Faça seu Registro</Text>
         <TextInput
           placeholder="Digite seu nome"
@@ -153,6 +154,11 @@ const styles = StyleSheet.create({
   innerContainer: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  logo: {
+    width: '100%',
+    height: 200,
+    marginBottom: 20,
   },
   title: {
     fontSize: 28,
